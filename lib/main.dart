@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'gallery.dart';
+import 'carinformation.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MainApp());
@@ -63,81 +66,119 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Column(
         children: [
+          // ส่วน GridView
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.35,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: cars.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (ctx, i) {
-                  return GestureDetector(
-                    onTap: () => Navigator.push(
-                      ctx,
-                      MaterialPageRoute(
-                        builder: (_) => FullImagePage(imageUrl: cars[i].imageUrl),
-                      ),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: cars.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 1,
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white24),
-                        image: DecorationImage(
-                          image: NetworkImage(cars[i].imageUrl),
-                          fit: BoxFit.cover,
+                    itemBuilder: (ctx, i) {
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                          ctx,
+                          MaterialPageRoute(
+                            builder: (_) => FullImagePage(imageUrl: cars[i].imageUrl),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.white24),
+                            image: DecorationImage(
+                              image: NetworkImage(cars[i].imageUrl),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 24,
+                  right: 24,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const GalleryPage()),
+                      );
+                    },
+                    child: const Text('Gallery'),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-          // ListView แสดงชื่อและสเปค
+          // ส่วน ListView
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'ชื่อเเละสเปค',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'ชื่อเเละสเปค',
+                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: cars.length,
+                          itemBuilder: (ctx, i) {
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[850],
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.white24),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(cars[i].name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+                                  const SizedBox(height: 6),
+                                  Text(cars[i].spec, style: const TextStyle(color: Colors.white70)),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: cars.length,
-                      itemBuilder: (ctx, i) {
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[850],
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.white24),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(cars[i].name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
-                              const SizedBox(height: 6),
-                              Text(cars[i].spec, style: const TextStyle(color: Colors.white70)),
-                            ],
-                          ),
-                        );
-                      },
+                ),
+                Positioned(
+                  top: 8,
+                  right: 24,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CarInfoPage()),
+                      );
+                    },
+                    child: const Text('Car Information'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
