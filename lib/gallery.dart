@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'main.dart'; // สมมติ MyHomePage อยู่ในนี้
+import 'carinformation.dart'; // สมมติ CarInfoPage อยู่ในนี้
 
 // -------------------- Car Class --------------------
 class Car {
@@ -57,6 +59,50 @@ class GalleryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Gallery Page')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.black87),
+              child: Text(
+                'รูปรถ',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('หน้าหลัก'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MyHomePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('รูปรถ'),
+              onTap: () {
+                Navigator.pop(context);
+                // เราอยู่หน้า Gallery อยู่แล้ว ไม่ต้องทำอะไรเพิ่มเติม
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.directions_car),
+              title: const Text('ข้อมูลรถ'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CarInfoPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(16),

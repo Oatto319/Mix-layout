@@ -37,12 +37,12 @@ class MyHomePage extends StatelessWidget {
   final List<Car> cars = const [
     Car(
       name: 'GT‑R R35',
-      spec: '3.8 L VR38DETT V6 TT, ≈480 hp (357 kW) & 433 lb‑ft (587 Nm), AWD, 6‑speed DCT' ,
+      spec: '3.8 L VR38DETT V6 TT, ≈480 hp (357 kW) & 433 lb‑ft (587 Nm), AWD, 6‑speed DCT',
       imageUrl: 'https://images.unsplash.com/photo-1627392690623-550864cda449?...q=80&w=678',
     ),
     Car(
       name: 'Nissan GT‑R R34',
-      spec: '2.6 L RB26‑DETT twin‑turbo inline‑6, ≈280 PS, AWD' ,
+      spec: '2.6 L RB26‑DETT twin‑turbo inline‑6, ≈280 PS, AWD',
       imageUrl: 'https://images.unsplash.com/photo-1677529459221-7ae934536562?...q=80&w=687',
     ),
     Car(
@@ -64,9 +64,57 @@ class MyHomePage extends StatelessWidget {
         title: const Text('JDM Classic Cars'),
         centerTitle: true,
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black87,
+              ),
+              child: Text(
+                'เมนูหลัก',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('หน้าหลัก'),
+              onTap: () {
+                Navigator.pop(context); // ปิด Drawer
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MyHomePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.directions_car),
+              title: const Text('รูปรถ'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const GalleryPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('ข้อมูลรถ'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CarInfoPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
-          // ส่วน GridView
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.35,
             child: Stack(
@@ -121,7 +169,6 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          // ส่วน ListView
           Expanded(
             child: Stack(
               children: [
@@ -150,7 +197,8 @@ class MyHomePage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(cars[i].name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+                                  Text(cars[i].name,
+                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
                                   const SizedBox(height: 6),
                                   Text(cars[i].spec, style: const TextStyle(color: Colors.white70)),
                                 ],
